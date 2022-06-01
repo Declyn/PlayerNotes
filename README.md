@@ -12,7 +12,7 @@ A simple plugin to attach notes to players with multi-server support
 * /notes add <player> <content> - Add a note to a player
 * /notes remove <player> <id> - Remove a note from a player
 
-###Permissions
+### Permissions
 * notes.view
 * notes.add
 * notes.remove
