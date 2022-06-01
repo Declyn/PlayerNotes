@@ -1,0 +1,41 @@
+datastore: "sqlite" # sqlite, mysql or mongodb
+
+mongodb:
+  host: "localhost"
+  port: 27017
+  authentication:
+    username: ""
+    password: ""
+    database: ""
+  data:
+    database: "playerNotes"
+    collection: "users"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  username: ""
+  password: ""
+  database: ""
+  data:
+    table: "users"
+
+command:
+  help:
+    - ""
+    - "&6&lPLAYER NOTES"
+    - "&e/notes view <player> [id] &7- &fView a player's notes."
+    - "&e/notes add <player> <content> &7- &fAdd a note to a player."
+    - "&e/notes remove <player> <id> &7- &fRemove a note from a player."
+    - ""
+  preview:
+    - ""
+    - "&6Note %id% &7(%timestamp%)"
+    - " &f- &eAuthor&7: &f%author%"
+    - " &f- &eContent&7: &f%content%"
+    - ""
+  add: "&eAdded note %id% to %player%."
+  remove: "&eRemoved note %id% from %player%."
+  empty: "&c%player% does not have any notes to display."
+  noteNotFound: "&cNo note with id %id% found."
+  userNotFound: "&cNo user with username %player% found."
