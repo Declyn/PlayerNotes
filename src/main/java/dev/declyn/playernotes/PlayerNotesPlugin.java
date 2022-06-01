@@ -4,17 +4,14 @@ import dev.declyn.playernotes.commands.NoteCommands;
 import dev.declyn.playernotes.datastore.UserDataStore;
 import dev.declyn.playernotes.datastore.impl.MongoDataStore;
 import dev.declyn.playernotes.datastore.impl.SQLDataStore;
-import dev.declyn.playernotes.user.User;
-import me.lucko.helper.Events;
+import dev.declyn.playernotes.user.UserListener;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import me.lucko.helper.plugin.ap.Plugin;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerLoginEvent;
 import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 import java.util.Objects;
 
-@Plugin(name = "PlayerNotes", version = "1.0", authors = "Declyn")
+@Plugin(name = "PlayerNotes", version = "1.1", authors = "Declyn")
 public class PlayerNotesPlugin extends ExtendedJavaPlugin {
 
     private UserDataStore userDataStore;
@@ -30,29 +27,12 @@ public class PlayerNotesPlugin extends ExtendedJavaPlugin {
             default -> throw new IllegalStateException("Data store not recognized, implemented data stores: 'flatfile', 'sql' or 'mongo'");
         };
 
-        Events.subscribe(PlayerLoginEvent.class).handler(event -> {
-            var player = event.getPlayer();
-
-            userDataStore.getUser(player.getUniqueId()).thenAccept(user -> {
-                if (user != null) {
-                    if (!user.getUsername().equals(player.getName())) {
-                        user.setUsername(player.getName());
-                        userDataStore.save(user);
-                    }
-                    return;
-                }
-
-                user = new User(player.getUniqueId(), player.getName());
-                userDataStore.save(user);
-            });
-        });
+        new UserListener(this);
 
         var commandHandler = BukkitCommandHandler.create(this);
 
         commandHandler.registerDependency(PlayerNotesPlugin.class, this);
         commandHandler.registerDependency(UserDataStore.class, userDataStore);
-
-        commandHandler.getAutoCompleter().registerSuggestion("username", (list, commandActor, executableCommand) -> getServer().getOnlinePlayers().stream().map(Player::getName).toList());
 
         commandHandler.register(new NoteCommands());
     }

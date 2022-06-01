@@ -39,3 +39,5 @@ command:
   empty: "&c%player% does not have any notes to display."
   noteNotFound: "&cNo note with id %id% found."
   userNotFound: "&cNo user with username %player% found."
+
+announceNotesOnJoin: false

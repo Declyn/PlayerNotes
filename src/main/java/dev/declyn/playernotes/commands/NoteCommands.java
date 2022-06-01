@@ -10,6 +10,8 @@ import revxrsal.commands.annotation.*;
 import revxrsal.commands.bukkit.BukkitCommandActor;
 import revxrsal.commands.bukkit.annotation.CommandPermission;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -76,7 +78,10 @@ public class NoteCommands {
                     authorNames.put(note.getAuthor(), userDataStore.getUser(note.getAuthor()).join().getUsername());
                 }
 
-                user.getNotes().forEach(note -> displayNote(actor, note, authorNames.get(note.getAuthor())));
+                var notes = new ArrayList<>(user.getNotes());
+                notes.sort(Comparator.comparingInt(Note::getId));
+
+                notes.forEach(note -> displayNote(actor, note, authorNames.get(note.getAuthor())));
             });
         });
     }
