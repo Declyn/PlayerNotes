@@ -42,7 +42,7 @@ public class UserListener {
                         return;
                     }
 
-                    Schedulers.sync().run(() -> player.chat("/notes view " + player.getName()));
+                    Schedulers.sync().run(() -> player.chat("/notes view " + user.getUsername()));
                 });
             }));
         }
